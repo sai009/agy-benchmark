@@ -2,6 +2,8 @@
 
 **An open benchmark framework for evaluating local LLM agents via the Google Antigravity SDK against cloud models.**
 
+This project was created by **Sai Kesavamatham** to explore two areas of active personal interest: the practical viability of hybrid agentic architectures — where cloud and local models collaborate within a single workflow — and the security implications of running agentic workloads on-device vs. in the cloud. The benchmark is a starting point for understanding where local execution genuinely holds up, where it falls short, and what the privacy and security tradeoffs look like in practice.
+
 Developed and run entirely using [Claude Sonnet 4.6](https://www.anthropic.com/claude) via the [Hermes Agent](https://github.com/NousResearch/hermes-agent) platform. Licensed under [Apache 2.0](LICENSE). See LICENSE for full disclaimer and no-liability terms.
 
 ---
@@ -158,7 +160,7 @@ The baseline run in `results/baseline_20260925.json` covers **5 tasks** across *
 **Hardware used for baseline:**
 Apple M4 Max · 128 GB unified memory · Metal GPU backend (auto-detected by LiteRT-LM)
 
-**Researcher:** Sai Kesava Matham
+**Researcher:** Sai Kesavamatham
 
 **Key findings from v1:**
 - Gemma 4 26B tied or nearly tied Claude on factual recall, logical reasoning, and instruction following
@@ -314,4 +316,4 @@ This project is not affiliated with, endorsed by, or acting on behalf of Google 
 
 ## Development Disclosure
 
-This project — all source code, scripts, tests, reports, and documentation — was designed, developed, and executed by **Sai Kesava Matham** with the assistance of **Claude Sonnet 4.6** (Anthropic) via the **Hermes Agent** platform. All outputs were reviewed by a human contributor before publication.
+Created by **Sai Kesavamatham** as part of personal research into hybrid agentic architectures, local model security, and the practical boundaries between cloud and on-device AI execution. All source code, scripts, tests, reports, and documentation were developed with the assistance of **Claude Sonnet 4.6** (Anthropic) via the **Hermes Agent** platform. All outputs were reviewed before publication.
