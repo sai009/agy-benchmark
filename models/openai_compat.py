@@ -9,7 +9,7 @@ Usage examples:
   OllamaAdapter(model="mistralai/Mistral-7B-Instruct-v0.3", base_url="http://localhost:8000/v1")
 
   # OpenAI (cloud)
-  OllamaAdapter(model="gpt-4o", api_key=os.environ["OPENAI_API_KEY"])
+  OllamaAdapter(model="gpt-4o", api_key=os.environ.get("OPENAI_API_KEY", ""))
 """
 from __future__ import annotations
 import os

@@ -30,7 +30,11 @@ CLAUDE_MODELS = {
 
 def _get_anthropic_client():
     """Build an anthropic.Anthropic client using the Hermes OAuth token."""
-    if HERMES_AGENT_PATH not in sys.path:
+    # Validate path before inserting into sys.path to prevent path injection
+    trusted_prefix = os.path.expanduser("~")
+    if (os.path.isdir(HERMES_AGENT_PATH)
+            and os.path.abspath(HERMES_AGENT_PATH).startswith(trusted_prefix)
+            and HERMES_AGENT_PATH not in sys.path):
         sys.path.insert(0, HERMES_AGENT_PATH)
 
     os.environ.setdefault("HERMES_HOME", HERMES_HOME)

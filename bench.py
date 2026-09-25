@@ -231,6 +231,12 @@ async def main() -> None:
 
     ts_str = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     out_path = args.out or os.path.join(ROOT, "results", f"{ts_str}.json")
+    # Resolve and keep within project or home directory to prevent arbitrary writes
+    out_path = os.path.realpath(out_path)
+    trusted = (os.path.realpath(ROOT), os.path.expanduser("~"))
+    if not any(out_path.startswith(t) for t in trusted):
+        print(f"Error: --out path must be within the project or home directory: {out_path}")
+        sys.exit(1)
 
     print(f"Models : {[model_registry[m].model_label for m in model_ids]}")
     print(f"Tasks  : {args.tasks}")
@@ -242,7 +248,7 @@ async def main() -> None:
     if not args.no_report:
         report_script = os.path.join(ROOT, "scripts", "generate_report.py")
         import subprocess
-        subprocess.run([sys.executable, report_script, out_path], check=False)
+        result = subprocess.run([sys.executable, report_script, out_path], check=True)
 
 
 if __name__ == "__main__":

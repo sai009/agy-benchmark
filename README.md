@@ -124,7 +124,7 @@ This registers the model at `~/.litert-lm/models/gemma4-26b/model.litertlm` auto
 To benchmark against Claude, export your Anthropic API key:
 
 ```bash
-export ANTHROPIC_API_KEY="sk-ant-..."
+export ANTHROPIC_API_KEY="<your-anthropic-api-key-here>"
 ```
 
 To use Ollama, vLLM, or LM Studio instead, see [Adding a New Model](#adding-a-new-model).

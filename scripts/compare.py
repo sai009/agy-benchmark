@@ -202,6 +202,13 @@ def main() -> None:
     parser.add_argument("--out", default=None, help="Save comparison markdown to this path")
     args = parser.parse_args()
 
+    if args.out:
+        args.out = os.path.realpath(args.out)
+        trusted = (os.path.realpath(ROOT), os.path.expanduser("~"))
+        if not any(args.out.startswith(t) for t in trusted):
+            print(f"Error: --out must be within the project or home directory: {args.out}", file=sys.stderr)
+            sys.exit(1)
+
     if len(args.files) < 2:
         print("Provide at least 2 result files to compare.", file=sys.stderr)
         sys.exit(1)

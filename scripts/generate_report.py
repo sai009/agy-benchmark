@@ -301,6 +301,12 @@ def main() -> None:
         payload = json.load(f)
 
     out_dir = args.out_dir or os.path.join(ROOT, "reports")
+    # Sanitize out_dir to prevent arbitrary writes
+    out_dir = os.path.realpath(out_dir)
+    trusted = (os.path.realpath(ROOT), os.path.expanduser("~"))
+    if not any(out_dir.startswith(t) for t in trusted):
+        print(f"Error: --out-dir must be within the project or home directory: {out_dir}", file=sys.stderr)
+        sys.exit(1)
     os.makedirs(out_dir, exist_ok=True)
 
     stem = os.path.splitext(os.path.basename(args.results_json))[0]
