@@ -158,9 +158,11 @@ The baseline run in `results/baseline_20260925.json` covers **5 tasks** across *
 **Hardware used for baseline:**
 Apple M4 Max · 128 GB unified memory · Metal GPU backend (auto-detected by LiteRT-LM)
 
+**Researcher:** Sai Kesava Matham
+
 **Key findings from v1:**
 - Gemma 4 26B tied or nearly tied Claude on factual recall, logical reasoning, and instruction following
-- Latency: Gemma averaged ~39s/response vs ~5s for Claude — primarily cold-start per `Agent()` context; a persistent session would be significantly faster
+- Latency: Gemma averaged ~39s/response vs ~5s for Claude — primarily cold-start per `Agent()` context; a persistent session could be significantly faster. We have not tested this theory.
 - Claude had a marginal edge on code generation and creative writing (syllable compliance)
 - Full results and per-response analysis: [`reports/baseline_20260925.md`](reports/baseline_20260925.md) · [`reports/baseline_20260925.pdf`](reports/baseline_20260925.pdf)
 
@@ -312,4 +314,4 @@ This project is not affiliated with, endorsed by, or acting on behalf of Google 
 
 ## Development Disclosure
 
-This project — all source code, scripts, tests, reports, and documentation — was designed, developed, and executed with the assistance of **Claude Sonnet 4.6** (Anthropic) via the **Hermes Agent** platform. All outputs were reviewed by a human contributor before publication.
+This project — all source code, scripts, tests, reports, and documentation — was designed, developed, and executed by **Sai Kesava Matham** with the assistance of **Claude Sonnet 4.6** (Anthropic) via the **Hermes Agent** platform. All outputs were reviewed by a human contributor before publication.
