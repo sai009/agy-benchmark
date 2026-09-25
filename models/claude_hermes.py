@@ -10,10 +10,14 @@ import sys
 import time
 from .base import ModelAdapter, RunResult
 
-HERMES_AGENT_PATH = os.path.expanduser("~/virtualenvs/Hermes/hermes-agent")
+# Hermes install path — override with HERMES_AGENT_PATH env var if your install differs
+HERMES_AGENT_PATH = os.environ.get(
+    "HERMES_AGENT_PATH",
+    os.path.expanduser("~/.hermes/hermes-agent"),
+)
 HERMES_HOME = os.environ.get(
     "HERMES_HOME",
-    os.path.expanduser("~/virtualenvs/Hermes/hermes_home"),
+    os.path.expanduser("~/.hermes"),
 )
 
 # Models available via this adapter
