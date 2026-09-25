@@ -1,0 +1,29 @@
+name: Benchmark CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install reportlab pypdf pytest
+
+      - name: Run unit tests
+        run: pytest tests/ -v
+
+      - name: Validate report generation (dry run)
+        run: |
+          python scripts/generate_report.py results/baseline_20260925.json --out-dir /tmp/reports
+          ls /tmp/reports/

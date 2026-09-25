@@ -1,0 +1,8 @@
+results/*.json
+!results/baseline_*.json
+__pycache__/
+*.pyc
+.DS_Store
+*.egg-info/
+.venv/
+*.litertlm
