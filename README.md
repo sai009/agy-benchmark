@@ -49,6 +49,19 @@ In the featured demo, a cloud architect model (Gemini 3.8 Flash) plans and decom
 
 ---
 
+## Architecture: Two Distinct Layers
+
+A common point of confusion worth stating explicitly: **the Hermes `agy-sdk` profile uses Claude Sonnet 4.6 as its chat model, not Gemma 4.** This is intentional.
+
+| Layer | Model | Role |
+|-------|-------|------|
+| Hermes chat (`agy-sdk` profile) | Claude Sonnet 4.6 | Research, tooling, scripting, repo management |
+| Benchmark inference | Gemma 4 26B A4B via LiteRT | Called directly inside `bench.py` / `agy_sample.py` |
+
+Gemma 4 runs when the benchmark scripts invoke `LiteRTAgentConfig` \u2014 not through Hermes's model routing. If you want Hermes chat itself to run on Gemma 4, start `litert-lm serve --port 9379` and point the profile at `http://localhost:9379/v1` (see the README in the Hermes `agy-sdk` profile for the exact commands).
+
+---
+
 ## What This Benchmark Does
 
 `agy-benchmark` was built the same week as the Google release to put these claims to the test. It runs **identical prompts** through:
