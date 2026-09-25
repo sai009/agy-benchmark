@@ -321,7 +321,9 @@ agy-benchmark/
 
 Apache 2.0 — see [LICENSE](LICENSE).
 
-**This software is provided "as is" with no warranties. The authors accept no liability for benchmark results, decisions made based on them, or any outcomes from use of this software. Benchmark results are point-in-time measurements and should not be used to draw general conclusions about model quality.**
+**This is a personal research project. It is not production software, has not been hardened for production use, and is not supported. By using this software you expressly assume all responsibility and risk, including misconfigurations, unexpected results, and any outcomes arising from running local AI models or agentic workflows. The author (Sai Kesavamatham) accepts no liability of any kind to the fullest extent permitted by applicable law.**
+
+Benchmark results are point-in-time measurements on specific hardware. They will become stale as models and runtimes evolve and should not be used to draw general conclusions about model quality or suitability for any purpose.
 
 This project is not affiliated with, endorsed by, or acting on behalf of Google LLC, Anthropic PBC, or any other third-party model provider referenced herein. All third-party trademarks belong to their respective owners.
 
