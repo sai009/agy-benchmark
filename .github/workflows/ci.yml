@@ -25,5 +25,5 @@ jobs:
 
       - name: Validate report generation (dry run)
         run: |
-          python scripts/generate_report.py results/baseline_20260925.json --out-dir /tmp/reports
-          ls /tmp/reports/
+          python scripts/generate_report.py results/baseline_20260925.json --out-dir reports/ci-dry-run
+          ls reports/ci-dry-run/
