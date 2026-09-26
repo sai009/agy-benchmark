@@ -72,6 +72,9 @@ secrets.json
 *.safetensors
 models-cache/
 
+# ── Dependency lockfile inputs (keep both tracked) ────────────
+# requirements.in and requirements.lock are intentionally committed
+
 # ── Benchmark results (keep only committed baselines) ─────────
 results/*.json
 !results/baseline_*.json
