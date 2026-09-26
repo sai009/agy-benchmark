@@ -8,6 +8,7 @@ from __future__ import annotations
 import os
 import sys
 import time
+from pathlib import Path
 from .base import ModelAdapter, RunResult
 
 # Hermes install path — override with HERMES_AGENT_PATH env var if your install differs
@@ -30,12 +31,14 @@ CLAUDE_MODELS = {
 
 def _get_anthropic_client():
     """Build an anthropic.Anthropic client using the Hermes OAuth token."""
-    # Validate path before inserting into sys.path to prevent path injection
-    trusted_prefix = os.path.expanduser("~")
-    if (os.path.isdir(HERMES_AGENT_PATH)
-            and os.path.abspath(HERMES_AGENT_PATH).startswith(trusted_prefix)
-            and HERMES_AGENT_PATH not in sys.path):
-        sys.path.insert(0, HERMES_AGENT_PATH)
+    # Use append (not insert) to avoid shadowing stdlib/site-packages (CWE-426).
+    # Validate against the exact resolved default path, not just any dir under ~.
+    _expected = Path(os.path.expanduser("~/.hermes/hermes-agent")).resolve()
+    _candidate = Path(HERMES_AGENT_PATH).resolve()
+    if (os.path.isdir(_candidate)
+            and _candidate == _expected
+            and str(_candidate) not in sys.path):
+        sys.path.append(str(_candidate))
 
     os.environ.setdefault("HERMES_HOME", HERMES_HOME)
 

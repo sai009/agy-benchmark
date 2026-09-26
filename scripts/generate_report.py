@@ -14,6 +14,8 @@ import os
 import sys
 from collections import defaultdict
 from datetime import datetime
+from pathlib import Path
+from xml.sax.saxutils import escape as xml_escape
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -245,23 +247,23 @@ def render_pdf(payload: dict, out_path: str) -> None:
 
     for task_id, rs in by_task.items():
         story.append(Paragraph(rs[0]["task_label"], h2))
-        story.append(Paragraph(f"<i>Prompt: {rs[0]['prompt'][:200]}</i>", body))
+        story.append(Paragraph(f"<i>Prompt: {xml_escape(rs[0]['prompt'][:200])}</i>", body))
         story.append(Spacer(1, 0.08 * inch))
 
         for r in rs:
             v = r["metadata"].get("verdict", "manual")
-            badge = {"pass": "✅ PASS", "fail": "❌ FAIL", "manual": "🔍 Manual", "error": "💥 Error"}.get(v, "")
+            badge = {"pass": "PASS", "fail": "FAIL", "manual": "Manual", "error": "Error"}.get(v, "")
             story.append(Paragraph(
-                f"<b>{r['model_label']}</b>  ·  {r['latency_s']}s  ·  {r['tokens_out']} tokens  ·  {badge}",
+                f"<b>{xml_escape(r['model_label'])}</b>  ·  {r['latency_s']}s  ·  {r['tokens_out']} tokens  ·  {badge}",
                 body,
             ))
             if r.get("error"):
-                story.append(Paragraph(f"Error: {r['error']}", body))
+                story.append(Paragraph(f"Error: {xml_escape(str(r['error']))}", body))
             else:
                 # Truncate very long responses for PDF
                 resp = r["response"][:800] + ("…" if len(r["response"]) > 800 else "")
-                # Escape XML special chars
-                resp = resp.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+                # Escape XML special chars for ReportLab Paragraph (CWE-116 fix)
+                resp = xml_escape(resp)
                 story.append(Paragraph(resp, mono))
             story.append(Spacer(1, 0.06 * inch))
 
@@ -301,11 +303,10 @@ def main() -> None:
         payload = json.load(f)
 
     out_dir = args.out_dir or os.path.join(ROOT, "reports")
-    # Sanitize out_dir to prevent arbitrary writes
-    out_dir = os.path.realpath(out_dir)
-    trusted = (os.path.realpath(ROOT), os.path.expanduser("~"))
-    if not any(out_dir.startswith(t) for t in trusted):
-        print(f"Error: --out-dir must be within the project or home directory: {out_dir}", file=sys.stderr)
+    # Restrict to within project root only (CWE-22: path traversal fix).
+    out_dir = str(Path(out_dir).resolve())
+    if not Path(out_dir).is_relative_to(Path(ROOT).resolve()):
+        print(f"Error: --out-dir must be within the project directory: {out_dir}", file=sys.stderr)
         sys.exit(1)
     os.makedirs(out_dir, exist_ok=True)
 

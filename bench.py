@@ -17,6 +17,7 @@ import datetime
 import json
 import os
 import sys
+from pathlib import Path
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, ROOT)
@@ -231,11 +232,12 @@ async def main() -> None:
 
     ts_str = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     out_path = args.out or os.path.join(ROOT, "results", f"{ts_str}.json")
-    # Resolve and keep within project or home directory to prevent arbitrary writes
-    out_path = os.path.realpath(out_path)
-    trusted = (os.path.realpath(ROOT), os.path.expanduser("~"))
-    if not any(out_path.startswith(t) for t in trusted):
-        print(f"Error: --out path must be within the project or home directory: {out_path}")
+    # Resolve and restrict to within project root only (CWE-22: path traversal fix).
+    # startswith() is vulnerable to prefix confusion (/home/user vs /home/user_evil).
+    # Path.is_relative_to() does an exact ancestry check.
+    out_path = str(Path(out_path).resolve())
+    if not Path(out_path).is_relative_to(Path(ROOT).resolve()):
+        print(f"Error: --out path must be within the project directory: {out_path}")
         sys.exit(1)
 
     print(f"Models : {[model_registry[m].model_label for m in model_ids]}")

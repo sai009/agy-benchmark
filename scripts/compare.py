@@ -26,6 +26,7 @@ import os
 import sys
 from collections import defaultdict
 from datetime import datetime
+from pathlib import Path
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -203,10 +204,9 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.out:
-        args.out = os.path.realpath(args.out)
-        trusted = (os.path.realpath(ROOT), os.path.expanduser("~"))
-        if not any(args.out.startswith(t) for t in trusted):
-            print(f"Error: --out must be within the project or home directory: {args.out}", file=sys.stderr)
+        args.out = str(Path(args.out).resolve())
+        if not Path(args.out).is_relative_to(Path(ROOT).resolve()):
+            print(f"Error: --out must be within the project directory: {args.out}", file=sys.stderr)
             sys.exit(1)
 
     if len(args.files) < 2:
