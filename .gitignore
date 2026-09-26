@@ -1,8 +1,92 @@
+# ── Python ────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+MANIFEST
+
+# ── Virtual environments ───────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+.env
+
+# ── Test / coverage ───────────────────────────────────────────
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+nosetests.xml
+test-results/
+
+# ── Type checkers ─────────────────────────────────────────────
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pytype/
+.pyre/
+
+# ── Editors / OS ──────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ── Secrets / credentials ─────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+auth.json
+secrets.json
+
+# ── Model files (large binaries) ──────────────────────────────
+*.litertlm
+*.gguf
+*.bin
+*.safetensors
+models-cache/
+
+# ── Benchmark results (keep only committed baselines) ─────────
 results/*.json
 !results/baseline_*.json
-__pycache__/
-*.pyc
-.DS_Store
-*.egg-info/
-.venv/
-*.litertlm
+
+# ── CI-generated artifacts (dry-run outputs, temp reports) ────
+reports/ci-dry-run/
+
+# ── Logs ──────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── Jupyter ───────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ── Distribution / packaging ──────────────────────────────────
+*.tar.gz
+*.whl

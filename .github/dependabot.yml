@@ -1,0 +1,29 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "security"
+    commit-message:
+      prefix: "deps"
+    ignore:
+      # Only auto-update patch versions for large SDK deps to avoid surprises
+      - dependency-name: "google-antigravity"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+      - dependency-name: "litert-lm"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "ci"
